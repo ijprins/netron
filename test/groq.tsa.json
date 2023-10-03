@@ -1,0 +1,55 @@
+{
+    "isa_groq_tsa_graph": true,
+    "kind": "groq_tsa_graph",
+    "nodes": [
+        {
+            "name": "n0",
+            "type": {
+                "name": "add"
+            },
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "n0oa0",
+                    "value": [
+                        {
+                            "name": "n0o0",
+                            "type": {
+                                "datatype": "float16",
+                                "shape": {
+                                    "dimensions": [ 4, 3, 320 ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "a0",
+                    "visible": true,
+                    "value": "a0v0",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "n1",
+            "type": {
+                "name": "add"
+            },
+            "inputs": [
+                {
+                    "visible": true,
+                    "name": "n1i0",
+                    "value": [
+                        {
+                            "name": "n0o0"
+                        }
+                    ]
+                }
+            ],
+            "outputs": []
+        }
+    ]
+}
