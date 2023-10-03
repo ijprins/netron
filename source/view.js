@@ -5108,7 +5108,7 @@ view.ModelFactoryService = class {
         this.register('./xmodel', [ '.xmodel' ]);
         this.register('./kmodel', [ '.kmodel' ]);
         this.register('./flux', [ '.bson' ]);
-        this.register('./groqtsa', [ '.tsa.json' ]);
+        this.register('./groqtsa', [ '.groqtsa.json' ]);
         this.register('./dl4j', [ '.json', '.bin' ]);
         this.register('./openvino', [ '.xml', '.bin' ]);
         this.register('./mlnet', [ '.zip', '.mlnet' ]);

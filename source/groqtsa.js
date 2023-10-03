@@ -9,12 +9,12 @@ groqtsa.ModelFactory = class {
         console.log("Entering groq matcher");
         const identifier = context.identifier;
         console.log(identifier);
-        if (identifier === 'groq.tsa.json') {
+        if (identifier.endsWith('.groqtsa.json')) {
             const obj = context.open('json');
             console.log(obj);
             if (obj /* && (obj.confs || obj.vertices) */) {
                 console.log("Succeeding from groq matcher");
-                return 'groq.tsa.json';
+                return '.groqtsa.json';
             }
         }
         console.log("Failing out of groq matcher");
@@ -22,7 +22,10 @@ groqtsa.ModelFactory = class {
     }
 
     open(context, match) {
-        console.assert(match == 'groq.tsa.json');
+        // This is exactly the string we returned above, maybe
+        // so we can tell what kind of file this was if we support
+        // multiple types of file?
+        console.assert(match == '.groqtsa.json');
         const obj = context.open('json');
         return new groqtsa.Model(obj);
     }
