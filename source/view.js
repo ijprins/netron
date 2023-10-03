@@ -5108,6 +5108,7 @@ view.ModelFactoryService = class {
         this.register('./xmodel', [ '.xmodel' ]);
         this.register('./kmodel', [ '.kmodel' ]);
         this.register('./flux', [ '.bson' ]);
+        this.register('./groqtsa', [ '.tsa.json' ]);
         this.register('./dl4j', [ '.json', '.bin' ]);
         this.register('./openvino', [ '.xml', '.bin' ]);
         this.register('./mlnet', [ '.zip', '.mlnet' ]);
@@ -5195,6 +5196,7 @@ view.ModelFactoryService = class {
                     { name: 'Vulkan SwiftShader ICD manifest', tags: [ 'file_format_version', 'ICD' ] },
                     { name: 'DeepLearningExamples configuration', tags: [ 'attention_probs_dropout_prob', 'hidden_act', 'hidden_dropout_prob', 'hidden_size', ] },
                     { name: 'GitHub page data', tags: [ 'payload', 'title', 'locale' ] },
+                    { name: 'Groq TSA graph', tags: [ 'isa_groq_tsa_graph' ] },
                     { name: 'NuGet assets', tags: [ 'version', 'targets', 'packageFolders' ] },
                     { name: 'NuGet data', tags: [ 'format', 'restore', 'projects' ] },
                     { name: 'NPM package', tags: [ 'name', 'version', 'dependencies' ] },
