@@ -1083,6 +1083,10 @@ view.Menu = class {
             [ 'Up', '&#x2191;' ], [ 'Down', '&#x2193;' ],
         ]);
         this._keydown = (e) => {
+            // Don't interpret this keypress as a shortcut if the user is typing in a field
+            if ((/^(input|textarea|select)$/i).test(e.target.tagName)) {
+                return;
+            }
             this._alt = false;
             const code = e.keyCode | (e.altKey ? 0x0200 : 0) | (e.shiftKey ? 0x0100 : 0);
             const modifier = (e.ctrlKey ? 0x0400 : 0) | (e.metaKey ? 0x0800 : 0);
