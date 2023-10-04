@@ -5,19 +5,21 @@
         {
             "name": "n0",
             "type": {
-                "name": "add"
+                "name": "add\nnum_bytes: 320\nmemory_words: 1024",
+                "category": "vxm"
             },
             "inputs": [],
             "outputs": [
                 {
                     "name": "n0oa0",
+                    "label": "foo",
                     "value": [
                         {
                             "name": "n0o0",
                             "type": {
-                                "datatype": "float16",
+                                "dataType": "float16",
                                 "shape": {
-                                    "dimensions": [ 4, 3, 320 ]
+                                    "dimensions": [4,3,320]
                                 }
                             }
                         }
@@ -44,7 +46,13 @@
                     "name": "n1i0",
                     "value": [
                         {
-                            "name": "n0o0"
+                            "name": "n0o0",
+                            "type": {
+                                "dataType": "float16",
+                                "shape": {
+                                    "dimensions": [4,3,320]
+                                }
+                            }
                         }
                     ]
                 }
