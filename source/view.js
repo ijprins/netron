@@ -21,7 +21,8 @@ view.View = class {
             attributes: false,
             names: false,
             direction: 'vertical',
-            mousewheel: 'scroll'
+            mousewheel: 'scroll',
+            attributeFilters: '',
         };
         this._options = Object.assign({}, this._defaultOptions);
         this._model = null;
@@ -123,6 +124,10 @@ view.View = class {
                     label: () => this.options.attributes ? 'Hide &Attributes' : 'Show &Attributes',
                     accelerator: 'CmdOrCtrl+D',
                     execute: () => this.toggle('attributes'),
+                    enabled: () => this.activeGraph
+                });
+                view.add({
+                    placeholderText: 'Attribute Filters',
                     enabled: () => this.activeGraph
                 });
                 view.add({
@@ -1419,6 +1424,15 @@ view.Menu = class {
                         container.appendChild(element);
                         break;
                     }
+                    case 'textinput': {
+                        const element = this._document.createElement('input');
+                        element.setAttribute('type', 'text')
+                        element.setAttribute('placeholder', item.placeholderText)
+                        element.setAttribute('class', 'menu-text-input');
+                        element.setAttribute('id', item.identifier);
+                        container.appendChild(element);
+                        break;
+                    }
                     default: {
                         break;
                     }
@@ -1515,7 +1529,16 @@ view.Menu.Group = class {
     }
 
     add(value) {
-        const item = Object.keys(value).length > 0 ? new view.Menu.Command(value) : new view.Menu.Separator();
+        const item = (() => {
+            if (value.execute) {
+                return new view.Menu.Command(value);
+            } else if (value.placeholderText) {
+                return new view.Menu.TextInput(value);
+            } else {
+                console.assert(Object.keys(value).length == 0);
+                return new view.Menu.Separator()
+            }
+        })();
         item.identifier = this.identifier + '-' + this.items.length.toString();
         this.items.push(item);
         item.shortcut = this.parent.register(item, item.accelerator);
@@ -1570,6 +1593,23 @@ view.Menu.Command = class {
         if (this._execute && this.enabled) {
             this._execute();
         }
+    }
+};
+
+view.Menu.TextInput = class {
+
+    constructor(item) {
+        this.type = 'textinput';
+        this._placeholderText = item.placeholderText;
+        this._enabled = item.enabled;
+    }
+
+    get placeholderText() {
+        return this._placeholderText;
+    }
+
+    get enabled() {
+        return this._enabled ? this._enabled() : true;
     }
 };
 
@@ -1853,6 +1893,7 @@ view.Node = class extends grapher.Node {
         const objects = [];
         const attributes = [];
         if (Array.isArray(node.attributes) && node.attributes.length > 0) {
+            const attrFilter = options.attributeFilters;
             for (const attribute of node.attributes) {
                 switch (attribute.type) {
                     /* case 'object':
@@ -1861,7 +1902,10 @@ view.Node = class extends grapher.Node {
                         break;
                     } */
                     default: {
-                        if (options.attributes && attribute.visible !== false) {
+                        const attribute_matches = attrFilter == "" || attrFilter.split(",").some((filter) => {
+                            return attribute.name.toLowerCase().includes(filter.trim().toLowerCase());
+                        });
+                        if (options.attributes && attribute.visible !== false && attribute_matches) {
                             attributes.push(attribute);
                         }
                     }
