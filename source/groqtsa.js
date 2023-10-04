@@ -68,6 +68,13 @@ groqtsa.Graph = class {
                     };
                 }
             }
+            for (const inputArr of node.inputs) {
+                for (const inVal of inputArr.value) {
+                    inVal.type.toString = function() {
+                        return this.dataType + ('[' + this.shape.dimensions.map((dimension) => dimension.toString()).join(',') + ']');
+                    };
+                }
+            }
         }
     }
 
