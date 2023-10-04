@@ -58,6 +58,17 @@ groqtsa.Graph = class {
         this._inputs = [];
         this._outputs = [];
         this._nodes = obj.nodes;
+        // Netron is gonna call type.toString() for sidebar viewing
+        // so we need to set it to something better than [Object object]
+        for (const node of this._nodes) {
+            for (const outputArr of node.outputs) {
+                for (const outVal of outputArr.value) {
+                    outVal.type.toString = function() {
+                        return this.dataType + ('[' + this.shape.dimensions.map((dimension) => dimension.toString()).join(',') + ']');
+                    };
+                }
+            }
+        }
     }
 
     get inputs() {
