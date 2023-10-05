@@ -127,8 +127,12 @@ view.View = class {
                     enabled: () => this.activeGraph
                 });
                 view.add({
-                    placeholderText: 'Attribute Filters',
-                    enabled: () => this.activeGraph
+                    placeholderText: 'Filter Attributes (Enter\u23ce)',
+                    enabled: () => this.activeGraph,
+                    onEnter: (value) => {
+                        this.toggle('attributeFilters', value);
+                    },
+                    startingValue: () => this.options.attributeFilters,
                 });
                 view.add({
                     label: () => this.options.weights ? 'Hide &Weights' : 'Show &Weights',
@@ -294,8 +298,21 @@ view.View = class {
         return this._options;
     }
 
-    toggle(name) {
+    toggle(name, newValue) {
+        console.assert(name === 'attributeFilters' || newValue === undefined);
         switch (name) {
+            case 'attributeFilters':
+                this.options.attributeFilters = newValue;
+                // Turn the attributes on if they aren't already. If you request
+                // a filter presumably you want to see them.
+                if (!this.options.attributes) {
+                    this.toggle('attributes')
+                } else {
+                    // Toggling the attributes will reload, no need to do it
+                    // twice in that case.
+                    this._reload();
+                }
+                break;
             case 'names':
             case 'attributes':
             case 'weights':
@@ -1430,6 +1447,12 @@ view.Menu = class {
                         element.setAttribute('placeholder', item.placeholderText)
                         element.setAttribute('class', 'menu-text-input');
                         element.setAttribute('id', item.identifier);
+                        element.value = item.startingValue();
+                        element.addEventListener("keydown", function (e) {
+                            if (e.key === "Enter") {
+                                item.onEnter(element.value);
+                            }
+                        });
                         container.appendChild(element);
                         break;
                     }
@@ -1600,12 +1623,10 @@ view.Menu.TextInput = class {
 
     constructor(item) {
         this.type = 'textinput';
-        this._placeholderText = item.placeholderText;
+        this.placeholderText = item.placeholderText;
         this._enabled = item.enabled;
-    }
-
-    get placeholderText() {
-        return this._placeholderText;
+        this.onEnter = item.onEnter;
+        this.startingValue = item.startingValue;
     }
 
     get enabled() {
