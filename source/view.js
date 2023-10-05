@@ -1914,7 +1914,7 @@ view.Node = class extends grapher.Node {
         const objects = [];
         const attributes = [];
         if (Array.isArray(node.attributes) && node.attributes.length > 0) {
-            const attrFilter = options.attributeFilters;
+            const attrFilters = options.attributeFilters.split(",").map((filter) => filter.trim().toLowerCase());
             for (const attribute of node.attributes) {
                 switch (attribute.type) {
                     /* case 'object':
@@ -1923,8 +1923,8 @@ view.Node = class extends grapher.Node {
                         break;
                     } */
                     default: {
-                        const attribute_matches = attrFilter == "" || attrFilter.split(",").some((filter) => {
-                            return attribute.name.toLowerCase().includes(filter.trim().toLowerCase());
+                        const attribute_matches = attrFilters === [] || attrFilters.some((filter) => {
+                            return attribute.name.toLowerCase().includes(filter);
                         });
                         if (options.attributes && attribute.visible !== false && attribute_matches) {
                             attributes.push(attribute);
