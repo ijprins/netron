@@ -241,9 +241,12 @@ grapher.Node = class {
             height = height + block.height;
         }
         this.border.setAttribute('d', grapher.Node.roundedRect(0, 0, width, height, true, true, true, true));
-        const nodeBox = this.element.getBBox();
-        this.width = nodeBox.width;
-        this.height = nodeBox.height;
+        // TODO
+        // const nodeBox = this.element.getBBox();
+        // this.width = nodeBox.width;
+        // this.height = nodeBox.height;
+        this.width = width + 2;
+        this.height = height + 2;
     }
 
     update() {
@@ -417,11 +420,16 @@ grapher.Node.Header.Entry = class {
         if (this.content) {
             this.text.textContent = this.content;
         }
-        const boundingBox = this.text.getBBox();
-        this.width = boundingBox.width + xPadding + xPadding;
-        this.height = boundingBox.height + yPadding + yPadding;
+        // TODO
+        // const boundingBox = this.text.getBBox();
+        // this.width = boundingBox.width + xPadding + xPadding;
+        // this.height = boundingBox.height + yPadding + yPadding;
+        const textLength = this.text.textContent.length;
+        this.width = textLength + 2*xPadding;
+        this.height = 1 + 2*yPadding;
         this.tx = xPadding;
-        this.ty = yPadding - boundingBox.y;
+        // this.ty = yPadding - boundingBox.y;
+        this.ty = yPadding - 1; // ????
     }
 };
 
@@ -492,12 +500,18 @@ grapher.Node.List = class {
                 element.textContent = item.separator + item.value;
                 text.appendChild(element);
             }
-            const size = text.getBBox();
-            const width = xPadding + size.width + xPadding;
+            // TODO
+            // const size = text.getBBox();
+            // const width = xPadding + size.width + xPadding;
+            const textLength = text.textContent.length;
+            const width = textLength + 2*xPadding;
+            const height = 1;
+
             this.width = Math.max(width, this.width);
             text.setAttribute('x', x + xPadding);
-            text.setAttribute('y', this.height + yPadding - size.y);
-            this.height += yPadding + size.height + yPadding;
+            // text.setAttribute('y', this.height + yPadding - size.y);
+            text.setAttribute('y', this.height + yPadding - y);
+            this.height += yPadding + height + yPadding;
             if (item.height !== undefined) {
                 this.height += item.height;
             }
@@ -584,9 +598,13 @@ grapher.Edge = class {
                 this.labelElement.setAttribute('id', 'edge-label-' + this.id);
             }
             edgeLabelGroupElement.appendChild(this.labelElement);
-            const edgeBox = this.labelElement.getBBox();
-            this.width = edgeBox.width;
-            this.height = edgeBox.height;
+            // TODO
+            // const edgeBox = this.labelElement.getBBox();
+            // this.width = edgeBox.width;
+            // this.height = edgeBox.height;
+            const textLength = this.label.length;
+            this.width = textLength;
+            this.height = 1;
         }
     }
 
