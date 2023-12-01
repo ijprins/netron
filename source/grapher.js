@@ -241,12 +241,9 @@ grapher.Node = class {
             height = height + block.height;
         }
         this.border.setAttribute('d', grapher.Node.roundedRect(0, 0, width, height, true, true, true, true));
-        // TODO
-        // const nodeBox = this.element.getBBox();
-        // this.width = nodeBox.width;
-        // this.height = nodeBox.height;
-        this.width = width + 2;
-        this.height = height + 2;
+        const nodeBox = this.element.getBBox();
+        this.width = nodeBox.width;
+        this.height = nodeBox.height;
     }
 
     update() {
