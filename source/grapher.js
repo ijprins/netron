@@ -501,18 +501,12 @@ grapher.Node.List = class {
                 element.textContent = item.separator + item.value;
                 text.appendChild(element);
             }
-            // TODO
-            // const size = text.getBBox();
-            // const width = xPadding + size.width + xPadding;
-            const textLength = text.textContent.length;
-            const width = textLength + 2*xPadding;
-            const height = 1;
-
+            const size = text.getBBox();
+            const width = xPadding + size.width + xPadding;
             this.width = Math.max(width, this.width);
             text.setAttribute('x', x + xPadding);
-            // text.setAttribute('y', this.height + yPadding - size.y);
-            text.setAttribute('y', this.height + yPadding - y);
-            this.height += yPadding + height + yPadding;
+            text.setAttribute('y', this.height + yPadding - size.y);
+            this.height += yPadding + size.height + yPadding;
             if (item.height !== undefined) {
                 this.height += item.height;
             }
