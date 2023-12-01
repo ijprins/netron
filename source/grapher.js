@@ -425,11 +425,12 @@ grapher.Node.Header.Entry = class {
         // this.width = boundingBox.width + xPadding + xPadding;
         // this.height = boundingBox.height + yPadding + yPadding;
         const textLength = this.text.textContent.length;
-        this.width = textLength + 2*xPadding;
-        this.height = 1 + 2*yPadding;
+        this.width = textLength * 6.5 + 2*xPadding;
+        this.height = 8 + 2*yPadding;
         this.tx = xPadding;
         // this.ty = yPadding - boundingBox.y;
-        this.ty = yPadding - 1; // ????
+        // Measured from the top, higher value = visually lower
+        this.ty = this.height - yPadding;
     }
 };
 
