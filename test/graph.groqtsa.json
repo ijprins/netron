@@ -5,7 +5,7 @@
         {
             "name": "n0",
             "type": {
-                "name": "add\nnum_bytes: 320\nmemory_words: 1024",
+                "name": "add",
                 "category": "vxm"
             },
             "inputs": [],
