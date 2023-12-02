@@ -417,13 +417,15 @@ grapher.Node.Header.Entry = class {
         if (this.content) {
             this.text.textContent = this.content;
         }
-        // TODO
+        // Replace slow bounding box code with simple assumptions about
+        // size of label based on text character count.
         // const boundingBox = this.text.getBBox();
         // this.width = boundingBox.width + xPadding + xPadding;
         // this.height = boundingBox.height + yPadding + yPadding;
         const textLength = this.text.textContent.length;
+        const numLines = (this.text.textContent.match(/o/g)||[]).length + 1;
         this.width = textLength * 6.5 + 2*xPadding;
-        this.height = 8 + 2*yPadding;
+        this.height = numLines * 6.5 + 2*yPadding;
         this.tx = xPadding;
         // this.ty = yPadding - boundingBox.y;
         // Measured from the top, higher value = visually lower
@@ -590,13 +592,15 @@ grapher.Edge = class {
                 this.labelElement.setAttribute('id', 'edge-label-' + this.id);
             }
             edgeLabelGroupElement.appendChild(this.labelElement);
-            // TODO
+            // Replace slow bounding box code with simple assumptions about
+            // size of label based on text character count.
             // const edgeBox = this.labelElement.getBBox();
             // this.width = edgeBox.width;
             // this.height = edgeBox.height;
+            const numLines = (this.label.match(/o/g)||[]).length + 1;
             const textLength = this.label.length;
-            this.width = textLength;
-            this.height = 1;
+            this.width = textLength * 6.5;
+            this.height = numLines * 6.5;
         }
     }
 
